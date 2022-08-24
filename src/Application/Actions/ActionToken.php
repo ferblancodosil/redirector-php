@@ -18,11 +18,30 @@ class ActionToken
      * @param request $request
      * @param string $token
      */
-    public function validate(Request $request, $token = null): bool
+    public function validate(Request $request, $token = null): void
     {
-        if ($token == null) {
+        if ($token == null)
+        {
             throw new HttpNotFoundException($request, 'NOT FOUND AUTHORIZATION TOKEN');
         }
-        return true;
+        $queue = Array();
+        $tokenElements = str_split($token);
+
+        foreach ($tokenElements as $tokenPosition) {
+        	$queueElement = end($queue);
+            if (($queueElement == '{' && $tokenPosition == '}') ||
+                ($queueElement == '(' && $tokenPosition == ')') ||
+                ($queueElement == '[' && $tokenPosition == ']'))
+            {
+                array_pop($queue);
+            } else {
+                array_push($queue, $tokenPosition);
+            }
+        }
+
+        if (count($queue) > 0)
+        {
+            throw new HttpNotFoundException($request, 'NOT VALID AUTHORIZATION TOKEN');
+        }
     }
 }

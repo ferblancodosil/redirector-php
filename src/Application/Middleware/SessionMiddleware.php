@@ -26,7 +26,8 @@ class SessionMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $this->actionToken->validate($request, $request->getHeader('AUTHORIZATION'));
+        $token = count($request->getHeader('AUTHORIZATION')) > 0 ? $request->getHeader('AUTHORIZATION')[0] : null;
+        $this->actionToken->validate($request, $token);
         return $handler->handle($request);
     }
 }
