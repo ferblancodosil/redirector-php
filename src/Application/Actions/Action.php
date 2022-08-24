@@ -53,7 +53,8 @@ abstract class Action
      */
     protected function getFormData()
     {
-        return $this->request->getParsedBody();
+        $data = $this->request->getParsedBody();
+        return $data == null ? [] : $data;
     }
 
     /**

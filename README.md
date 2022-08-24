@@ -42,4 +42,15 @@ Run this command in the application directory to run the test suite
 composer test
 ```
 
-That's it! Now go build something cool.
+## Test app
+
+You can use this code to test de app
+
+```
+curl -X POST \
+  http://localhost:8080/api/v1/short-urls \
+  -H 'authorization: ({})' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -d url=http%3A%2F%2Fwww.google.com
+```
